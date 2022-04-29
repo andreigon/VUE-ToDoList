@@ -6,17 +6,43 @@ Vue.createApp({
             completelist:[],
         };
     },
+
+    mounted(){
+        if (localStorage.getItem('needDoList')){
+            try{
+                this.needDoList=JSON.parse(localStorage.getItem('needDoList'));
+            } catch(e) {
+                localStorage.removeItem('needDoList');
+            }
+        }
+    },
+
+    // mounted(){
+    //     if (localStorage.getItem('completelist')){
+    //         try{
+    //             this.completelist=JSON.parse(localStorage.getItem('completelist'));
+    //         } catch(e) {
+    //             localStorage.removeItem('completelist');
+    //         }
+    //     }
+    // },
+
     methods: {
+        
         handlyInput(event){
             this.valueInput = event.target.value;
         },
         addTask () {
-            if(this.valueInput===''){return};
+            if(this.valueInput===''){
+                return;
+            }
             this.needDoList.push({
                 title: this.valueInput,
                 id: Math.random()
             });
             this.valueInput='';
+            this.needDoList='';
+            this.saveTasks();
         },
         doCheck (index,type) {
             if(type==='need'){
@@ -31,6 +57,10 @@ Vue.createApp({
         removeMask(index,type){
             const toDoList = type === 'need' ? this.needDoList: this.completelist;
             toDoList.splice(index,1);
+        },
+        saveTasks(){
+            const parsed = JSON.stringify(this.valueInput);
+            localStorage.setItem('valueInput')
         }
     }
 }).mount('#app');
