@@ -1,21 +1,21 @@
 Vue.createApp({
     data() {
         return{
-            valueInput: '',
+            // valueInput: '',
             needDoList: [],
-            completelist:[],
+            completelist:[]
         };
     },
 
-    mounted(){
-        if (localStorage.getItem('needDoList')){
-            try{
-                this.needDoList=JSON.parse(localStorage.getItem('needDoList'));
-            } catch(e) {
-                localStorage.removeItem('needDoList');
-            }
-        }
-    },
+    // mounted(){
+    //     if (localStorage.getItem('needDoList')){
+    //         try{
+    //             this.needDoList=JSON.parse(localStorage.getItem('needDoList'));
+    //         } catch(e) {
+    //             localStorage.removeItem('needDoList');
+    //         }
+    //     }
+    // },
 
     // mounted(){
     //     if (localStorage.getItem('completelist')){
@@ -28,21 +28,19 @@ Vue.createApp({
     // },
 
     methods: {
-        
         handlyInput(event){
             this.valueInput = event.target.value;
         },
         addTask () {
-            if(this.valueInput===''){
-                return;
-            }
-            this.needDoList.push({
+            if(this.valueInput==='') {
+                return
+            };
+            this.needDoList.push ({
                 title: this.valueInput,
                 id: Math.random()
             });
-            this.valueInput='';
-            this.needDoList='';
-            this.saveTasks();
+            this.valueInput = '';
+            
         },
         doCheck (index,type) {
             if(type==='need'){
@@ -54,13 +52,14 @@ Vue.createApp({
                 this.needDoList.push(...noCompleteMask);
             }
         },
-        removeMask(index,type){
+        removeMask(index,type) {
             const toDoList = type === 'need' ? this.needDoList: this.completelist;
             toDoList.splice(index,1);
         },
-        saveTasks(){
-            const parsed = JSON.stringify(this.valueInput);
-            localStorage.setItem('valueInput')
+        saveTasks() {
+            const parsed = JSON.stringify(this.needDoList);
+            localStorage.setItem('needDoList', parsed);
         }
     }
-}).mount('#app');
+}
+).mount('#app');

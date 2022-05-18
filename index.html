@@ -16,8 +16,12 @@
             <div class="container">
                 <div class="logo">VUE ToDo List</div>
                 <div class="form">
-                    <input type="text" v-bind:value="valueInput" v-on:input="handlyInput" v-on:keypress.enter="addTask">
-                    <button class="btn" v-on:click="addTask">Сделаем</button>
+                    <input type="text" 
+                    v-bind:value="valueInput"
+                    v-on:input="handleInput"
+                    v-on:keypress.enter="addTask"
+                    >
+                   <button class="btn" v-on:click="addTask">Сделаем</button>
                 </div>
             </div>
         </div>
@@ -54,6 +58,6 @@
 
     
     <script src="https://unpkg.com/vue@next"></script>  
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
