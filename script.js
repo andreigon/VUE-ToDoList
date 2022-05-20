@@ -1,45 +1,41 @@
 Vue.createApp({
     data() {
         return{
-            // valueInput: '',
+            valueInput: '',
             needDoList: [],
             completelist:[]
         };
     },
 
-    // mounted(){
-    //     if (localStorage.getItem('needDoList')){
-    //         try{
-    //             this.needDoList=JSON.parse(localStorage.getItem('needDoList'));
-    //         } catch(e) {
-    //             localStorage.removeItem('needDoList');
-    //         }
-    //     }
-    // },
-
-    // mounted(){
-    //     if (localStorage.getItem('completelist')){
-    //         try{
-    //             this.completelist=JSON.parse(localStorage.getItem('completelist'));
-    //         } catch(e) {
-    //             localStorage.removeItem('completelist');
-    //         }
-    //     }
-    // },
+    mounted(){
+        if (localStorage.getItem('needDoList')){
+            try{
+                this.needDoList=JSON.parse(localStorage.getItem('needDoList'));
+            } catch(e) {
+                localStorage.removeItem('needDoList');
+            }
+        }
+    
+        if (localStorage.getItem('completelist')){
+            try{
+                this.completelist=JSON.parse(localStorage.getItem('completelist'));
+            } catch(e) {
+                localStorage.removeItem('completelist');
+            }
+        }
+    },
 
     methods: {
-        handlyInput(event){
-            this.valueInput = event.target.value;
-        },
         addTask () {
-            if(this.valueInput==='') {
-                return
+            if(!this.valueInput){
+            return
             };
-            this.needDoList.push ({
+            this.needDoList.push({
                 title: this.valueInput,
                 id: Math.random()
             });
             this.valueInput = '';
+            this.saveTasks();
             
         },
         doCheck (index,type) {
@@ -51,14 +47,22 @@ Vue.createApp({
                 const noCompleteMask=this.completelist.splice(index,1);
                 this.needDoList.push(...noCompleteMask);
             }
+            this.saveTasks();
+            this.saveCompleteTask();
         },
         removeMask(index,type) {
             const toDoList = type === 'need' ? this.needDoList: this.completelist;
             toDoList.splice(index,1);
+            this.saveTasks();
         },
         saveTasks() {
             const parsed = JSON.stringify(this.needDoList);
             localStorage.setItem('needDoList', parsed);
+
+        },
+        saveCompleteTask(){
+            const parsed = JSON.stringify(this.completelist);
+            localStorage.setItem('completelist', parsed);
         }
     }
 }

@@ -17,8 +17,7 @@
                 <div class="logo">VUE ToDo List</div>
                 <div class="form">
                     <input type="text" 
-                    v-bind:value="valueInput"
-                    v-on:input="handleInput"
+                    v-model="valueInput"
                     v-on:keypress.enter="addTask"
                     >
                    <button class="btn" v-on:click="addTask">Сделаем</button>
@@ -46,7 +45,7 @@
             <ul class="mask-list complete-list">
                 <li v-for="(mask,index) in completelist" :key="mask.id">
                     <div>
-                        <input type="checkbox" v-on: change="doCheck(index,'complete')" checked>
+                        <input type="checkbox" v-on:change="doCheck(index,'complete')" checked>
                         <span>{{mask.title}}</span>
                     </div>
                     <button class="btn-remove" v-on:click="removeMask(index, 'complete')">Сделал</button>
